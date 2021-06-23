@@ -70,5 +70,3 @@ export const Div = styled.div`
     box-shadow: inset 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
   }
 `;
-
-//https://emojipedia.org/search/?q=White+Chess icons
