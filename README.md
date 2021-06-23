@@ -1,3 +1,26 @@
-## Chess
+# Chess  ♟♟
+## IMG  📷
+![](https://i.imgur.com/kaTmHbj.png)
 
-icons //https://emojipedia.org/search/?q=White+Chess
+
+## Game 🎢📦🎡✨
+
+## [ GAME ](https://chess-luckmer.netlify.app/)  🕹🎮
+```
+
+  https://chess-luckmer.netlify.app/
+  
+```
+
+
+## description 👩‍💻👨‍💻
++ link to icons
+
+```
+
+  https://emojipedia.org/
+  
+```
+
++ mobile friendly soon 📦
++ pc only  🎡
