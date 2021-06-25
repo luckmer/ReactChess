@@ -38,3 +38,16 @@ export const BlockTypeFind = (xrCreateBottom, block) => {
 
   return { black, white };
 };
+
+export const FindDifferentElement = (data, move) =>
+  data
+    .filter((item) => move.includes(item.id))
+    .map((el) => {
+      return {
+        type: el.Type,
+        Id: el.id,
+      };
+    })
+    .filter(({ Id }) => Id >= 0);
+
+export const TypeCreator = (el) => el.split(" ")[0].replace(/[,]/g, "");

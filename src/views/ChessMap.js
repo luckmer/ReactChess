@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { DataContext } from "../utils/Store";
 import { BoardStyle, Div } from "../css/Chess.Style";
 import ChessCreator from "../hooks/Board/ChessGrid";
 import DragAndDrop from "../hooks/DragAndDrop/DragAndDrop";
@@ -8,13 +10,17 @@ const ChessMap = () => {
     ChessData,
     setChessBoard
   );
+  const { MOVES } = useContext(DataContext);
+  console.log();
 
   return (
     <BoardStyle>
       {ChessData.map((el, i) => {
         const Check = el.ChessImg === "Empty";
+
         return (
           <Div
+            Test={MOVES.moves.includes(el.id)}
             key={i}
             id={el.id}
             onDragOver={(e) => handleDragOver(e)}
