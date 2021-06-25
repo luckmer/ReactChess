@@ -53,6 +53,7 @@ export const CreateLeftWall = (ChessData, block, Wall1, dropID) => {
 
   const connect = calcSum(values);
   let FindWall = connect.filter((value) => value <= Number(block.id)).reverse();
+
   const WallDetector = FindWall.find((id) => Wall1.includes(id));
 
   if (WallDetector) {
@@ -85,6 +86,7 @@ export const CreateBottomWall = (ChessData, block, Wall4, dropID) => {
   let createBottom = xrCreateBottom.filter((item) =>
     Number(item.id) <= FindBottom ? FindBottom.id : Number(dropID)
   );
+
   if (FindBottom) {
     createBottom = xrCreateBottom.filter((item) => item.id <= FindBottom.id);
   }
