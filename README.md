@@ -24,3 +24,6 @@
 
 + mobile friendly soon 📦
 + pc only  🎡
+
+# updates 🎉
++ Possible movement can be highlighted 
