@@ -62,10 +62,21 @@ export const Div = styled.div`
   background-repeat: no-repeat;
   background-position: 50%;
   background-size: 38%;
+  background: ${({ Test }) => (Test ? "#ffc97a" : "")};
+  background: ${({ Test }) => (Test ? "#ffc97a" : "")};
+  box-shadow: ${({ Test }) =>
+    Test
+      ? "inset 0px 0px 10px 5px rgba(0, 0, 0, 0.26)"
+      : "inset 0px 0px 10px 5px rgba(0, 0, 0, 0.19)"};
 
-  transition: 0.2s;
+  -webkit-transition: background-color 350ms linear;
+  -moz-transition: background-color 350ms linear;
+  -o-transition: background-color 350ms linear;
+  -ms-transition: background-color 350ms linear;
+
+  transition: background-color 350ms cubic-bezier(0.65, 0.05, 1, 0.8);
+
   opacity: 1;
-  box-shadow: inset 0px 0px 10px 5px rgba(0, 0, 0, 0.19);
   &&:hover {
     box-shadow: inset 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
   }
