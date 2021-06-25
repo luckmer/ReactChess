@@ -15,7 +15,7 @@ export const Numbers = styled.div`
   height: 100%;
   width: 5%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: space-evenly;
   left: 0;
   top: 0;
