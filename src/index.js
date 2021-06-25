@@ -3,12 +3,13 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import GlobalStyle from "./css/Global.style";
+import Store from "./utils/Store";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Store>
     <GlobalStyle />
     <App />
-  </React.StrictMode>,
+  </Store>,
   document.getElementById("root")
 );
 
