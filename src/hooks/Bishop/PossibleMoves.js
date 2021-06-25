@@ -37,7 +37,13 @@ export const YBottomPanel = (ChessData, block, Wall2, dropID) => {
       item.id
   );
 
-  const YCheckBottom = CreateBottomMovement(YBottom, Wall2, dropID);
+  const YCheckBottom = CreateBottomMovement(
+    YBottom,
+    Wall2,
+    block,
+    dropID,
+    ChessData
+  );
 
   return YCheckBottom;
 };
@@ -54,7 +60,15 @@ export const XBottomPanel = (ChessData, Bishop, Wall2, dropID) => {
     );
   });
 
-  const XCheckBottom = CreateBottomMovement(XBottom, Wall2, dropID);
+  const XCheckBottom = CreateBottomMovement(
+    XBottom,
+    Wall2,
+    Bishop,
+    dropID,
+    ChessData
+  );
 
-  return XCheckBottom;
+  const Way = XCheckBottom.filter((item) => !Wall2.includes(item));
+
+  return Way;
 };

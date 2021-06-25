@@ -1,19 +1,30 @@
-import { BlockTypeFind } from "../Constants";
+import { BlockTypeFind, TypeCreator, WallCreator } from "../Constants";
 
-export const CreateBottomMovement = (obj, wall, id) => {
+export const CreateBottomMovement = (obj, wall, block, id, ChessData) => {
+  const Wall1 = WallCreator(ChessData, 1);
+
   const FindYTop = obj.find(({ id }) => wall.includes(id));
 
-  let createYTop = obj.filter((item) =>
-    Number(item.id) <= FindYTop ? FindYTop.id : Number(id)
+  let bottom = obj.filter((item) =>
+    Number(item.id) < FindYTop ? FindYTop.id : Number(id)
   );
 
   if (FindYTop) {
-    createYTop = obj.filter((item) => item.id <= FindYTop.id);
+    bottom = obj.filter((item) => item.id <= FindYTop.id);
   }
 
-  createYTop = SetBottomSpacer(createYTop, obj);
+  bottom = SetBottomSpacer(bottom, obj, block);
 
-  const YCheckTop = createYTop.map(({ id }) => id);
+  let YCheckTop = bottom.map(({ id }) => id);
+
+  if (id % 8 === 0) {
+  }
+
+  const Blocker = obj.find(({ id }) => Wall1.includes(id));
+
+  if (Blocker && id % 8 === 0) {
+    YCheckTop = YCheckTop.filter((item) => item < Blocker.id);
+  }
 
   return YCheckTop;
 };
@@ -26,36 +37,60 @@ export const CreateTopMovement = (YTop, Wall1, dropID, obj, pos) => {
   );
 
   if (FindYTop) createYTop = YTop.filter((item) => item.id >= FindYTop.id);
-
   createYTop = setTopSpacer(createYTop, obj, pos, YTop);
 
   const YCheckTop = createYTop.map(({ id }) => id);
   return YCheckTop;
 };
 
-const SetBottomSpacer = (createYTop, obj) => {
+const SetBottomSpacer = (createYTop, obj, block) => {
   const { black, white } = BlockTypeFind(createYTop, obj);
 
-  if (white || black) {
-    const ID = white.length >= 1 ? white.shift() : black.shift();
-    if (ID) createYTop = obj.filter((item) => item.id <= Number(ID.id));
+  if (white) {
+    const ID = white.shift();
+    if (ID)
+      createYTop = createYTop.filter((road) =>
+        TypeCreator(road.Type) === TypeCreator(block.Type)
+          ? road.id < Number(ID.id)
+          : road.id <= Number(ID.id)
+      );
+  }
+
+  if (black) {
+    const ID = black.shift();
+    if (ID)
+      createYTop = createYTop.filter((road) =>
+        TypeCreator(road.Type) === TypeCreator(block.Type)
+          ? road.id < Number(ID.id)
+          : road.id <= Number(ID.id)
+      );
   }
 
   return createYTop;
 };
 
-const setTopSpacer = (createYTop, obj, pos, YTop) => {
-  const { black, white } = BlockTypeFind(createYTop, obj);
+const setTopSpacer = (top, block, pos, YTop) => {
+  const { black, white } = BlockTypeFind(top, block);
 
-  if (black) {
-    const GetID = pos === 0 ? black.shift() : black.pop();
-    if (GetID) createYTop = YTop.filter((item) => item.id >= GetID.id);
+  if (black && top && block.Type) {
+    const GetID = black.pop();
+    if (GetID)
+      top = YTop.filter((road) =>
+        TypeCreator(road.Type) === TypeCreator(block.Type)
+          ? road.id > Number(GetID.id) && Number(road.id < block.id)
+          : road.id >= Number(GetID.id) && Number(road.id < block.id)
+      );
   }
 
-  if (white) {
-    const id = white.shift();
-    if (id) createYTop = YTop.filter((item) => item.id >= id.id);
+  if (white && block.Type) {
+    const id = white.pop();
+    if (id)
+      top = YTop.filter((road) =>
+        TypeCreator(road.Type) === TypeCreator(block.Type)
+          ? Number(road.id > id.id)
+          : Number(road.id >= id.id)
+      ).map(({ id }) => id);
   }
 
-  return createYTop;
+  return top;
 };
