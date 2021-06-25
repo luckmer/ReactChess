@@ -1,4 +1,5 @@
 import { BlockTypeFind } from "../Constants";
+import { TypeCreator } from "../Constants";
 
 export const BlockLeftWall = (ChessData, block, Result, ClearNumbers) => {
   const PossibleBlocks = ChessData.filter(
@@ -6,21 +7,56 @@ export const BlockLeftWall = (ChessData, block, Result, ClearNumbers) => {
   );
   const { black, white } = BlockTypeFind(PossibleBlocks, block);
 
-  if (white || black) {
-    const ID = white.length >= 1 ? white.pop() : black.pop();
-    if (ID) Result = ClearNumbers.filter((item) => item >= ID.id);
+  const Data = ChessData.filter((item) => ClearNumbers.includes(item.id));
+
+  if (white && block.Type) {
+    const ID = white.pop();
+    if (ID) {
+      Result = Data.filter((road) =>
+        TypeCreator(road.Type) === TypeCreator(block.Type)
+          ? Number(road.id > ID.id)
+          : Number(road.id >= ID.id)
+      ).map(({ id }) => id);
+    }
   }
+
+  if (black && block.Type) {
+    const ID = black.pop();
+    if (ID) {
+      ClearNumbers = ClearNumbers.reverse();
+      Result = ClearNumbers.filter((item) => item > ID.id);
+    }
+  }
+
   return Result;
 };
 
-export const BlockRightWall = (createRight, block, rxCheckRight) => {
-  const { black, white } = BlockTypeFind(createRight, block);
+export const BlockRightWall = (right, block, data) => {
+  const { black, white } = BlockTypeFind(right, block);
 
-  if (white || black) {
-    const ID = white.length >= 1 ? white.pop() : black.shift();
-    if (ID) createRight = rxCheckRight.filter((item) => item.id <= ID.id);
+  if (white && block.Type) {
+    const ID = white.shift();
+    // if (ID) right = RightWallGenerator(right, data, block, ID);
+    if (ID)
+      right = data.filter((road) =>
+        TypeCreator(road.Type) === TypeCreator(block.Type)
+          ? road.id < Number(ID.id)
+          : road.id <= Number(ID.id)
+      );
   }
-  return createRight;
+
+  if (black && block.Type) {
+    const ID = black.shift();
+    // if (ID) right = RightWallGenerator(right, data, block, ID);
+    if (ID)
+      right = data.filter((road) =>
+        TypeCreator(road.Type) === TypeCreator(block.Type)
+          ? road.id < Number(ID.id)
+          : road.id <= Number(ID.id)
+      );
+  }
+
+  return right;
 };
 
 export const BlockTopWall = (rxCreateTop, block, createTop) => {
@@ -28,16 +64,24 @@ export const BlockTopWall = (rxCreateTop, block, createTop) => {
 
   if (black) {
     const ID = black.pop();
-    if (ID) {
-      createTop = rxCreateTop.filter((item) => item.id >= ID.id);
-    }
+    // if (ID) createTop = TopWallGenerator(createTop, block, ID);
+    if (ID)
+      createTop = createTop.filter((road) =>
+        TypeCreator(road.Type) === TypeCreator(block.Type)
+          ? road.id > Number(ID.id) && Number(road.id < block.id)
+          : road.id >= Number(ID.id) && Number(road.id < block.id)
+      );
   }
 
-  if (white) {
+  if (white && block.Type) {
     const ID = white.pop();
-    if (ID) {
-      createTop = rxCreateTop.filter((item) => item.id > ID.id);
-    }
+    // if (ID) createTop = TopWallGenerator(createTop, block, ID);
+    if (ID)
+      createTop = createTop.filter((road) =>
+        TypeCreator(road.Type) === TypeCreator(block.Type)
+          ? road.id > Number(ID.id) && Number(road.id < block.id)
+          : road.id >= Number(ID.id) && Number(road.id < block.id)
+      );
   }
 
   return createTop;
@@ -46,11 +90,15 @@ export const BlockTopWall = (rxCreateTop, block, createTop) => {
 export const BlockBottomWall = (xrCreateBottom, block, createBottom) => {
   const { black, white } = BlockTypeFind(xrCreateBottom, block);
 
-  if (black || white) {
+  if ((black && block.Type) || (white && block.Type)) {
     const ID = black.length >= 1 ? black.shift() : white.shift();
-    if (ID) {
-      createBottom = xrCreateBottom.filter((item) => item.id <= ID.id);
-    }
+    if (ID)
+      createBottom = xrCreateBottom.filter((road) =>
+        TypeCreator(road.Type) === TypeCreator(block.Type)
+          ? road.id < Number(ID.id)
+          : road.id <= Number(ID.id)
+      );
   }
+
   return createBottom;
 };
