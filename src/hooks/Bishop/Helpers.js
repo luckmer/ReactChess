@@ -5,9 +5,13 @@ export const CreateBottomMovement = (obj, wall, block, id, ChessData) => {
 
   const FindYTop = obj.find(({ id }) => wall.includes(id));
 
-  let bottom = obj.filter((item) =>
-    Number(item.id) < FindYTop ? FindYTop.id : Number(id)
-  );
+  let bottom = obj;
+
+  if (FindYTop) {
+    bottom = obj.filter((item) =>
+      Number(item.id) < FindYTop ? FindYTop.id : Number(id)
+    );
+  }
 
   if (FindYTop) {
     bottom = obj.filter((item) => item.id <= FindYTop.id);
@@ -16,9 +20,6 @@ export const CreateBottomMovement = (obj, wall, block, id, ChessData) => {
   bottom = SetBottomSpacer(bottom, obj, block);
 
   let YCheckTop = bottom.map(({ id }) => id);
-
-  if (id % 8 === 0) {
-  }
 
   const Blocker = obj.find(({ id }) => Wall1.includes(id));
 
@@ -32,11 +33,16 @@ export const CreateBottomMovement = (obj, wall, block, id, ChessData) => {
 export const CreateTopMovement = (YTop, Wall1, dropID, obj, pos) => {
   const FindYTop = YTop.find(({ id }) => Wall1.includes(id));
 
-  let createYTop = YTop.filter((item) =>
-    Number(item.id) <= FindYTop ? FindYTop.id : Number(dropID)
-  );
+  let createYTop = YTop;
+
+  if (FindYTop) {
+    createYTop = YTop.filter((item) =>
+      Number(item.id) <= FindYTop ? FindYTop.id : Number(dropID)
+    );
+  }
 
   if (FindYTop) createYTop = YTop.filter((item) => item.id >= FindYTop.id);
+
   createYTop = setTopSpacer(createYTop, obj, pos, YTop);
 
   const YCheckTop = createYTop.map(({ id }) => id);
@@ -48,6 +54,7 @@ const SetBottomSpacer = (createYTop, obj, block) => {
 
   if (white) {
     const ID = white.shift();
+
     if (ID)
       createYTop = createYTop.filter((road) =>
         TypeCreator(road.Type) === TypeCreator(block.Type)
@@ -74,6 +81,7 @@ const setTopSpacer = (top, block, pos, YTop) => {
 
   if (black && top && block.Type) {
     const GetID = black.pop();
+    // if (GetID) top = TopWallGenerator(YTop, block, GetID);
     if (GetID)
       top = YTop.filter((road) =>
         TypeCreator(road.Type) === TypeCreator(block.Type)

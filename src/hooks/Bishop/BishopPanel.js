@@ -17,6 +17,7 @@ const BishopPanel = (FindTarget, ChessData, dropID) => {
   const YCheckTop = YTopPanel(ChessData, block, Wall1, dropID);
   const XCheckBottom = XBottomPanel(ChessData, Bishop, Wall2, dropID);
   const YCheckBottom = YBottomPanel(ChessData, block, Wall2, dropID);
+
   return { XCheckBottom, XCheckTop, YCheckTop, YCheckBottom };
 };
 
